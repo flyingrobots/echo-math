@@ -1,0 +1,26 @@
+# Rust
+/target/
+**/*.rs.bk
+**/*.rlib
+**/*.d
+**/*.gcno
+**/*.profdata
+**/*.profraw
+**/*.prof
+**/*.lock
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# Editor backup files
+*~
+*.bak
+*.swp
+.swp
