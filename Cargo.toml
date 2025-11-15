@@ -5,9 +5,13 @@ edition = "2021"
 rust-version = "1.71.1"
 description = "Deterministic math library for the Echo engine ecosystem."
 license = "Apache-2.0"
-repository = "https://github.com/flyingrobots/echo-math"[features]
+repository = "https://github.com/flyingrobots/echo-math"
+
+[features]
 default = []
-golden_prng = [][dependencies]
+golden_prng = []
+
+[dependencies]
 bytes = "1.0"
 num-traits = "0.2"
 rand_core = "0.6"
