@@ -1,0 +1,17 @@
+error[E0308]: mismatched types
+  --> tests/compile/compile_fail/ray_wrong_types.rs:12:19
+   |
+12 |     let _ = Ray { origin, dir }; // should fail
+   |                   ^^^^^^ expected `Point3<_>`, found `Direction3<f32>`
+   |
+   = note: expected struct `echo_math::Point3<_>`
+              found struct `echo_math::Direction3<f32>`
+
+error[E0308]: mismatched types
+  --> tests/compile/compile_fail/ray_wrong_types.rs:12:27
+   |
+12 |     let _ = Ray { origin, dir }; // should fail
+   |                           ^^^ expected `Direction3<_>`, found `Point3<f32>`
+   |
+   = note: expected struct `echo_math::Direction3<_>`
+              found struct `echo_math::Point3<f32>`

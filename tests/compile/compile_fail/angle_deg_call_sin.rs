@@ -1,5 +1,4 @@
-// This file is expected to fail compilation.
-use echo_math::angle::DegAngle;
+use echo_math::*;
 
 fn main() {
     let a = DegAngle::<f32>::from_degrees(45.0);

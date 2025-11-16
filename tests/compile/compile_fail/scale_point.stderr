@@ -1,0 +1,13 @@
+error[E0369]: cannot multiply `echo_math::Point3<f32>` by `{float}`
+ --> tests/compile/compile_fail/scale_point.rs:5:18
+  |
+5 |     let _bad = p * 2.0; // should fail
+  |                - ^ --- {float}
+  |                |
+  |                echo_math::Point3<f32>
+  |
+note: the foreign item type `echo_math::Point3<f32>` doesn't implement `Mul<{float}>`
+ --> src/types.rs
+  |
+  | pub struct Point3<T: Scalar>(pub Vec3<T>);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not implement `Mul<{float}>`

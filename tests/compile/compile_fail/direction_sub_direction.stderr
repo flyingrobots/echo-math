@@ -1,0 +1,13 @@
+error[E0369]: cannot subtract `echo_math::Direction3<f32>` from `echo_math::Direction3<f32>`
+ --> tests/compile/compile_fail/direction_sub_direction.rs:7:19
+  |
+7 |     let _bad = d1 - d2; // should fail
+  |                -- ^ -- echo_math::Direction3<f32>
+  |                |
+  |                echo_math::Direction3<f32>
+  |
+note: the foreign item type `echo_math::Direction3<f32>` doesn't implement `Sub`
+ --> src/types.rs
+  |
+  | pub struct Direction3<T: Scalar>(pub Vec3<T>);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not implement `Sub`

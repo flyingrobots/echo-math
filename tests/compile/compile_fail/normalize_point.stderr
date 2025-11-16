@@ -1,0 +1,10 @@
+error[E0599]: no method named `normalize` found for struct `echo_math::Point3` in the current scope
+ --> tests/compile/compile_fail/normalize_point.rs:5:7
+  |
+5 |     p.normalize(); // should fail, normalize doesn't exist
+  |       ^^^^^^^^^ method not found in `Point3<f32>`
+  |
+help: one of the expressions' fields has a method of the same name
+  |
+5 |     p.0.normalize(); // should fail, normalize doesn't exist
+  |       ++

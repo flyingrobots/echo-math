@@ -1,7 +1,7 @@
 error[E0599]: no method named `sin` found for struct `Angle<f32, Deg>` in the current scope
- --> tests/compile/compile_fail/angle_deg_call_sin.rs:6:15
+ --> tests/compile/compile_fail/angle_deg_call_sin.rs:5:15
   |
-6 |     let s = a.sin();
+5 |     let s = a.sin();
   |               ^^^ method not found in `Angle<f32, Deg>`
   |
   = note: the method was found for

@@ -1,9 +1,8 @@
-// This file is expected to fail compilation.
-use echo_math::scalar::kinds::DeterministicScalar;
+use echo_math::*;
 
-fn deterministic_step<T: DeterministicScalar>(dt: T) {}
+fn step<T: DeterministicScalar>(dt: T) {}
 
 fn main() {
-    let dt: f32 = 0.016;
-    deterministic_step(dt);
+    let dt: f32 = 0.1;
+    step(dt); // should fail
 }
