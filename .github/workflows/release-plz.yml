@@ -1,0 +1,64 @@
+name: Release-plz
+
+on:
+  push:
+    branches:
+      - main # Or your default branch, e.g., 'master'
+
+permissions:
+  contents: write # Required to create/update release PRs, tags, and releases
+  pull-requests: write # Required to create/update release PRs
+
+jobs:
+  release-pr:
+    runs-on: ubuntu-latest
+    # Use a concurrency group to ensure only one release-pr job runs at a time for the same branch.
+    # This prevents conflicts when multiple commits are pushed quickly.
+    concurrency: release-plz-pr-${{ github.ref }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # release-plz needs the full git history
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+
+      - name: Run release-plz release-pr
+        # This step creates or updates the release pull request.
+        # It will analyze your commit history (using Conventional Commits)
+        # to determine the next version and generate changelog entries.
+        uses: MarcoIeni/release-plz-action@v0.5
+        id: release_pr
+        with:
+          command: release-pr
+
+  release:
+    runs-on: ubuntu-latest
+    needs: release-pr # This job depends on the release-pr job completing successfully
+    # This job should only run if the release-pr job successfully created a release PR
+    # and that PR was merged, or if a direct push to main contains a version bump.
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, 'chore(release): ') }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # release-plz needs the full git history
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+
+      - name: Run release-plz release
+        # This step publishes the packages, creates git tags, and GitHub releases.
+        # It requires a CARGO_REGISTRY_TOKEN if publishing to crates.io.
+        uses: MarcoIeni/release-plz-action@v0.5
+        with:
+          command: release
+          # If you are publishing to crates.io, you need to provide a token.
+          # Store this as a repository secret named CARGO_REGISTRY_TOKEN.
+          # Alternatively, consider trusted publishing if applicable.
+          cargo_registry_token: ${{ secrets.CARGO_REGISTRY_TOKEN }}
