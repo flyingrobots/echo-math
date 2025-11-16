@@ -1,0 +1,13 @@
+error[E0369]: cannot add `Point3<f32>` to `Point3<f32>`
+ --> tests/compile/compile_fail/point_plus_point.rs:8:19
+  |
+8 |     let _bad = p1 + p2;
+  |                -- ^ -- Point3<f32>
+  |                |
+  |                Point3<f32>
+  |
+note: the foreign item type `Point3<f32>` doesn't implement `Add`
+ --> src/vec/point3.rs
+  |
+  | pub struct Point3<T: RealScalar>(pub Vec3<T>);
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ not implement `Add`

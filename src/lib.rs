@@ -1,55 +1,23 @@
-//! Deterministic math helpers covering scalar utilities, linear algebra
-//! primitives, quaternions, and timeline-friendly pseudo-random numbers.
-//!
-//! All operations round to `f32` to mirror the runtime’s float32 mode.
+// echo-math/src/lib.rs
 
-use std::f32::consts::TAU;
+#![allow(dead_code)] // TODO: Remove this once the library is fleshed out.
 
-pub mod mat4;
-pub mod prng;
-pub mod quat;
 pub mod scalar;
-pub mod vec3;
+pub mod angle;
+pub mod vec;
+// pub mod quat;
+// pub mod mat4;
+// pub mod transform;
+// pub mod ops;
 
-#[doc(inline)]
-pub use mat4::Mat4;
-#[doc(inline)]
-pub use prng::Prng;
-#[doc(inline)]
-pub use quat::Quat;
-#[doc(inline)]
-pub use scalar::Scalar;
-#[doc(inline)]
-pub use vec3::Vec3;
-
-/// Degeneracy threshold used by math routines to detect near-zero magnitudes.
-///
-/// This is not a generic numeric-precision epsilon; it is used to classify
-/// vectors/quaternions with magnitude ≤ `EPSILON` as degenerate so that
-/// operations like normalization can return stable, deterministic sentinels
-/// (e.g., the zero vector or identity quaternion).
-pub const EPSILON: f32 = 1e-6;
-
-/// Clamps `value` to the inclusive `[min, max]` range using float32 rounding.
-///
-/// # Panics
-/// Panics if `min > max`.
-///
-/// # NaN handling
-/// If `value`, `min`, or `max` is `NaN`, the result is `NaN`. Callers must
-/// ensure inputs are finite if deterministic behavior is required.
-#[allow(clippy::manual_clamp)]
-pub fn clamp(value: f32, min: f32, max: f32) -> f32 {
-    assert!(min <= max, "invalid clamp range: {min} > {max}");
-    value.clamp(min, max)
+// Prelude for easy importing of common types.
+pub mod prelude {
+    pub use crate::scalar::{Scalar, RealScalar, TrigScalar};
+    pub use crate::scalar::{DeterministicScalar, NondetScalar};
+    pub use crate::scalar::f32_det::F32Det;
+    pub use crate::angle::{Angle, RadAngle, DegAngle};
+    pub use crate::vec::vec3::Vec3;
+    pub use crate::vec::point3::{Point3, Point3f};
+    // ... other common types
 }
 
-/// Converts degrees to radians with float32 precision.
-pub fn deg_to_rad(value: f32) -> f32 {
-    value * (TAU / 360.0)
-}
-
-/// Converts radians to degrees with float32 precision.
-pub fn rad_to_deg(value: f32) -> f32 {
-    value * (360.0 / TAU)
-}
